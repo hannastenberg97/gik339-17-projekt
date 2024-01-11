@@ -79,9 +79,9 @@ server.get('/cars/:id', (req, res) => {
 server.put('/cars/:id', (req, res) => {
   const { model, year, gear, fuel, color, mileage } = req.body;
   const id = req.params.id;
-  
+
   const sql = `UPDATE cars SET model = ?, year = ?, gear = ?, fuel = ?, color = ?, mileage = ? WHERE id = ?`;
-  
+
   db.run(sql, [model, year, gear, fuel, color, mileage, id], function (err) {
     if (err) {
       res.status(500).json({ error: err.message });
@@ -90,6 +90,11 @@ server.put('/cars/:id', (req, res) => {
     res.json({ message: `Car with ID ${id} updated successfully` });
   });
 });
+
+
+
+
+res.json({ message: `Car with ID ${id} updated successfully` });
 
 // DELETE - Delete a resource by ID
 server.delete('/cars/:id', (req, res) => {

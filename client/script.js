@@ -26,13 +26,13 @@ function fetchData(){
       });
 
       const editBtn = document.createElement('button');
-  editBtn.textContent = 'Edit';
+  editBtn.textContent = 'Ändra';
   editBtn.classList.add('btn', 'btn-warning', 'mx-2');
   editBtn.addEventListener('click', () => openEditModal(id)); 
   li.appendChild(editBtn);
   
       const deleteBtn = document.createElement('button');
-  deleteBtn.textContent = 'Delete';
+  deleteBtn.textContent = 'Ta bort';
   deleteBtn.classList.add('btn', 'btn-danger');
   deleteBtn.addEventListener('click', () => deleteCar(id));
   li.appendChild(deleteBtn);
@@ -64,17 +64,17 @@ function openEditModal(id) {
     .then((car) => {
       console.log("car", car)
       const fetchcar=car.resources[0]
-      // Populate modal form fields with car details
+      
       document.getElementById('editInputModel').value = fetchcar.model;
       document.getElementById('editInputYear').value = fetchcar.year;
       document.getElementById('editInputGear').value = fetchcar.gear;
       document.getElementById('editInputFuel').value = fetchcar.fuel;
       document.getElementById('editInputColor').value = fetchcar.color;
-      // Add other fields as needed
+     
 
       
 
-      // Show the Bootstrap modal
+     
       const modal = new bootstrap.Modal(document.getElementById('editCarModal'));
       modal.show();
     })
@@ -84,6 +84,92 @@ function openEditModal(id) {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  const updateCarBtn = document.getElementById('updateCarBtn');
+  updateCarBtn.addEventListener('click', () => {
+    const carid = document.getElementById('editCarId').value;
+    updateForm(carid);
+
+    fetchData();
+    $('#editCarModal').modal('hide');
+  });
+});
+
+function updateForm(carid) {
+  const model = document.getElementById("editInputModel").value;
+  const year = document.getElementById("editInputYear").value;
+  const gear = document.getElementById("editInputGear").value;
+  const fuel = document.getElementById("editInputFuel").value;
+  const color = document.getElementById("editInputColor").value;
+  const mileage = document.getElementById("inputMileage").value;
+
+  const formData = {
+    model: model,
+    year: year,
+    gear: gear,
+    fuel: fuel,
+    color: color,
+    mileage: mileage,
+  };
+
+  console.log("Uppdaterar car med ID", carid);
+
+  fetch(`http://localhost:5500/cars/${carid}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok.');
+      }
+      return response.json();
+    })
+    .then((car) => {
+      console.log("Uppdatera car", car);
+      const fetchcar = car.resources[0];
+
+      document.getElementById('editInputModel').value = fetchcar.model;
+      document.getElementById('editInputYear').value = fetchcar.year;
+      document.getElementById('editInputGear').value = fetchcar.gear;
+      document.getElementById('editInputFuel').value = fetchcar.fuel;
+      document.getElementById('editInputColor').value = fetchcar.color;
+
+      const modal = new bootstrap.Modal(document.getElementById('editCarModal'));
+      modal.show();
+    })
+    .catch((error) => {
+      console.error('Error fetching or parsing car details:', error);
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function deleteCar(id) {
   fetch(`http://localhost:5500/cars/${id}`, {
     method: 'DELETE'
@@ -91,7 +177,7 @@ function deleteCar(id) {
     .then((response) => {
       if (response.ok) {
         console.log(`Car with ID ${id} has been deleted.`);
-        fetchData(); // Refresh the car list after deletion
+        fetchData(); 
       } else {
         console.error(`Failed to delete car with ID ${id}.`);
       }
@@ -110,7 +196,7 @@ form.addEventListener('submit', (e) => {
 });
 
 function submitForm() {
-console.log("hejhej")
+console.log("test")
   const model = document.getElementById("inputModel").value;
   const year = document.getElementById("inputYear").value;
   const gear = document.getElementById("inputGear").value;
