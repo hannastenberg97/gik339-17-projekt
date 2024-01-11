@@ -72,11 +72,7 @@ function openEditModal(id) {
       document.getElementById('editInputGear').value = fetchcar.gear;
       document.getElementById('editInputFuel').value = fetchcar.fuel;
       document.getElementById('editInputColor').value = fetchcar.color;
-     
-
-      
-
-     
+    
       const modal = new bootstrap.Modal(document.getElementById('editCarModal'));
       modal.show();
     })
@@ -84,13 +80,6 @@ function openEditModal(id) {
       console.error('Error fetching or parsing car details:', error);
     });
 }
-
-
-
-
-
-
-
 
 
 
@@ -157,18 +146,6 @@ function updateForm(carid) {
       console.error('Error updating car:', error);
     });
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

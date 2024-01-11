@@ -22,9 +22,8 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Ändra din bil</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+       
+        
       </div>
       <div class="modal-body">
         <form id="editCarForm">
@@ -63,7 +62,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Stäng</button>
+        <button type="button" class="btn btn-secondary" id="closeModalBtn" data-dismiss="modal" >Stäng</button>
         <button type="button" class="btn btn-primary" id="updateCarBtn">Spara ändring</button>
       </div>
     </div>
@@ -123,13 +122,13 @@
                 <p>Din bil har lagts till.</p>
               </div>
               <div class="modal-footer">
-                <!-- Close button to dismiss the modal -->
+                
                 <button type="button" class="btn btn-secondary" id="closeModalBtn">Stäng</button>
               </div>
             </div>
           </div>
         </div>
-        <!-- Button to clear the fields -->
+        
         <div class="col-12">
           <button type="button" class="btn btn-danger" onclick="clearFields()">Rensa fält</button>
         </div>
@@ -139,13 +138,6 @@
     <!-- Lista  -->
      
 </div>
-
-
-
-
-
-
-
 
     <div class="container mt-5 mb-5" id="carList">
        <div class="list-group-item flex-fill d-flex justify-content-end mb-3 ">

@@ -15,7 +15,7 @@ const db = new sqlite3.Database('database.db', (err) => {
   }
 });
 
-// Middleware to parse JSON bodies
+// Middleware 
 server.use(express.json())
 .use(express.static('../client'))
 .use((req, res, next) => {
@@ -26,9 +26,9 @@ server.use(express.json())
   next();
 });
 
-// Define API Routes
 
-// GET all resources
+
+// GET 
 server.get('/cars', (req, res) => {
   db.all('SELECT * FROM cars', (err, rows) => {
     if (err) {
@@ -38,16 +38,13 @@ server.get('/cars', (req, res) => {
     res.json({ resources: rows });
   });
 });
-/*
-server.get('/', (req, res) =>{
-  res.sendFile(path.join(__dirname, '../client/index.html'));
-});*/
+
 
 server.get('/test', (req, res) =>{
   res.json({response:"heloo"});
 });
 
-// POST - Create a new resource
+// POST 
 server.post('/cars', (req, res) => {
 
   const {model, year, gear, fuel, color, mileage} = req.body;
@@ -75,7 +72,7 @@ server.get('/cars/:id', (req, res) => {
 })
 
 
-// PUT - Update a resource
+// PUT 
 server.put('/cars/:id', (req, res) => {
   const { model, year, gear, fuel, color, mileage } = req.body;
   const id = req.params.id;
@@ -96,7 +93,7 @@ server.put('/cars/:id', (req, res) => {
 
 
 
-// DELETE - Delete a resource by ID
+// DELETE 
 server.delete('/cars/:id', (req, res) => {
   const id = req.params.id;
   db.run(`DELETE FROM cars WHERE id = ?`, id, function (err) {
@@ -108,14 +105,14 @@ server.delete('/cars/:id', (req, res) => {
   });
 });
 
-// Start the server
+// Starta server
 server.use(cors())
 
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-// Database setup (create a table)
+// Databas Setup
 db.serialize(() => {
   db.run(`CREATE TABLE IF NOT EXISTS cars (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
