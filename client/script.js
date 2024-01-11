@@ -54,6 +54,8 @@ function fetchData(){
 
 function openEditModal(id) {
   console.log("editing car",id)
+  document.getElementById('editCarId').value = id; // lade till det här
+  console.log("editCarId value:", document.getElementById('editCarId').value);
   fetch(`http://localhost:5500/cars/${id}`)
     .then((response) => {
       if (!response.ok) {
@@ -96,12 +98,6 @@ function openEditModal(id) {
 
 
 
-
-
-
-
-
-
 document.addEventListener("DOMContentLoaded", function () {
   const updateCarBtn = document.getElementById('updateCarBtn');
   updateCarBtn.addEventListener('click', () => {
@@ -110,10 +106,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     fetchData();
     $('#editCarModal').modal('hide');
+
+
   });
 });
 
+
 function updateForm(carid) {
+  console.log("Before updating form values");
+  console.log("Car ID:", carid);
   const model = document.getElementById("editInputModel").value;
   const year = document.getElementById("editInputYear").value;
   const gear = document.getElementById("editInputGear").value;
@@ -121,7 +122,7 @@ function updateForm(carid) {
   const color = document.getElementById("editInputColor").value;
   const mileage = document.getElementById("inputMileage").value;
 
-  const formData = {
+  const updatedData = {
     model: model,
     year: year,
     gear: gear,
@@ -130,32 +131,33 @@ function updateForm(carid) {
     mileage: mileage,
   };
 
-  console.log("Uppdaterar car med ID", carid);
+  console.log("Updating car with ID", carid, "with data:", updatedData);
 
-  fetch(`http://localhost:5500/cars/${carid}`)
-    .then((response) => {
+  fetch(`http://localhost:5500/cars/${carid}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(updatedData),
+  })
+    .then(response => {
+      console.log("PUT request response:", response);
       if (!response.ok) {
         throw new Error('Network response was not ok.');
       }
       return response.json();
     })
-    .then((car) => {
-      console.log("Uppdatera car", car);
-      const fetchcar = car.resources[0];
-
-      document.getElementById('editInputModel').value = fetchcar.model;
-      document.getElementById('editInputYear').value = fetchcar.year;
-      document.getElementById('editInputGear').value = fetchcar.gear;
-      document.getElementById('editInputFuel').value = fetchcar.fuel;
-      document.getElementById('editInputColor').value = fetchcar.color;
-
+    .then(data => {
+      console.log("Car updated successfully:", data);
+    
       const modal = new bootstrap.Modal(document.getElementById('editCarModal'));
-      modal.show();
+      modal.hide();
+   
+      fetchData();
     })
-    .catch((error) => {
-      console.error('Error fetching or parsing car details:', error);
+    .catch(error => {
+      console.error('Error updating car:', error);
     });
 }
+
 
 
 
@@ -224,6 +226,7 @@ console.log("test")
       console.log("Det funka!");
       console.log(`${data.message} with an id of: ${data.id}`);
       fetchData();
+      clearFields();
     }
   })
   .catch(error =>{

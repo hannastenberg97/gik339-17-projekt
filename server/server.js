@@ -94,7 +94,7 @@ server.put('/cars/:id', (req, res) => {
 
 
 
-res.json({ message: `Car with ID ${id} updated successfully` });
+
 
 // DELETE - Delete a resource by ID
 server.delete('/cars/:id', (req, res) => {
