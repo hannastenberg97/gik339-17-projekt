@@ -1,16 +1,28 @@
+// URL för API-anrop
+
 const url = "http://localhost:5500/cars";
+
+// Hämta referens till elementet som kommer visa listan av bilar
 const carListContainer = document.getElementById("carList");
 
+
+// Even lyssnare som körs när sidan laddas
 window.addEventListener('load', fetchData);
+
+// Funktion för att hämta data från API och uppdatera gränssnittet
 function fetchData(){
   carListContainer.innerHTML = "";
+  // Anropa API:et för att hämta bilar
   fetch(url)
   .then((response) => response.json())
   .then((object) => {
+          // Skapa en lista för att visa bilarna
     const ul = document.createElement("ul");
     ul.classList.add("carList", "list-group");
     const cars = object.resources;
 
+
+        // Loopa igenom varje bil och skapa listelement
     cars.forEach((car) =>{
       console.log(car);
       const li = document.createElement('li');
@@ -18,6 +30,7 @@ function fetchData(){
       const id = car.id;
       const data = [car.model, car.year, car.gear, car.fuel, car.color, car.mileage];
       const names = ['Modell: ', 'Modell År: ', 'Växellåda: ', 'Bränsle: ', 'Färg: ', 'Miltal: '];
+      // Lägg till information om varje bil i listelementet
       data.forEach((item, index) =>{
         const span = document.createElement('span');
         const html = names[index] + item + ' ';
@@ -25,6 +38,8 @@ function fetchData(){
         li.appendChild(span);
       });
 
+
+       // Skapa knappar för redigering och borttagning av varje bil
       const editBtn = document.createElement('button');
   editBtn.textContent = 'Ändra';
   editBtn.classList.add('btn', 'btn-warning', 'mx-2');
@@ -51,11 +66,12 @@ function fetchData(){
 }
 
 
-
+// Öppna modal
 function openEditModal(id) {
   console.log("editing car",id)
-  document.getElementById('editCarId').value = id; // lade till det här
+  document.getElementById('editCarId').value = id; 
   console.log("editCarId value:", document.getElementById('editCarId').value);
+  // Hämta detaljer för specifik bil
   fetch(`http://localhost:5500/cars/${id}`)
     .then((response) => {
       if (!response.ok) {
@@ -67,6 +83,7 @@ function openEditModal(id) {
       console.log("car", car)
       const fetchcar=car.resources[0]
       
+
       document.getElementById('editInputModel').value = fetchcar.model;
       document.getElementById('editInputYear').value = fetchcar.year;
       document.getElementById('editInputGear').value = fetchcar.gear;
@@ -85,7 +102,7 @@ function openEditModal(id) {
 
 
 
-
+// Lyssnare för uppdatering efter redigering
 
 document.addEventListener("DOMContentLoaded", function () {
   const updateCarBtn = document.getElementById('updateCarBtn');
@@ -101,6 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+// Uppdatera bil
 function updateForm(carid) {
   console.log("Before updating form values");
   console.log("Car ID:", carid);
@@ -147,7 +165,7 @@ function updateForm(carid) {
     });
 }
 
-
+// Ta bort 
 
 function deleteCar(id) {
   fetch(`http://localhost:5500/cars/${id}`, {
@@ -166,7 +184,7 @@ function deleteCar(id) {
     });
 }
 
-// submit
+// 
 
 const form = document.getElementById("carForm");
 form.addEventListener('submit', (e) => {
@@ -174,6 +192,7 @@ form.addEventListener('submit', (e) => {
   submitForm();
 });
 
+// Lägg till
 function submitForm() {
 console.log("test")
   const model = document.getElementById("inputModel").value;
@@ -242,7 +261,7 @@ document.getElementById('carForm').addEventListener('submit', function(event) {
  
   var closeTimeout = setTimeout(function() {
     myModal.hide();
-  }, 20000); // Sekunderna är bugg
+  }, 2000); 
 
   
   document.getElementById('closeModalBtn').addEventListener('click', function() {
